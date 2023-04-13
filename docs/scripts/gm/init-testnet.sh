@@ -1,8 +1,8 @@
 #!/bin/sh
 
 VALIDATOR_NAME=validator1
-CHAIN_ID=gm
-KEY_NAME=gm-key
+CHAIN_ID=cel
+KEY_NAME=cel-key
 CHAINFLAG="--chain-id ${CHAIN_ID}"
 TOKEN_AMOUNT="10000000000000000000000000stake"
 STAKING_AMOUNT="1000000000stake"
@@ -13,11 +13,11 @@ DA_BLOCK_HEIGHT=$(curl https://rpc-blockspacerace.pops.one/block | jq -r '.resul
 echo $DA_BLOCK_HEIGHT
 
 ignite chain build
-gmd tendermint unsafe-reset-all
-gmd init $VALIDATOR_NAME --chain-id $CHAIN_ID
+celd tendermint unsafe-reset-all
+celd init $VALIDATOR_NAME --chain-id $CHAIN_ID
 
-gmd keys add $KEY_NAME --keyring-backend test
-gmd add-genesis-account $KEY_NAME $TOKEN_AMOUNT --keyring-backend test
-gmd gentx $KEY_NAME $STAKING_AMOUNT --chain-id $CHAIN_ID --keyring-backend test
-gmd collect-gentxs
-gmd start --rollkit.aggregator true --rollkit.da_layer celestia --rollkit.da_config='{"base_url":"http://localhost:26659","timeout":60000000000,"fee":6000,"gas_limit":6000000}' --rollkit.namespace_id $NAMESPACE_ID --rollkit.da_start_height $DA_BLOCK_HEIGHT
+celd keys add $KEY_NAME --keyring-backend test
+celd add-genesis-account $KEY_NAME $TOKEN_AMOUNT --keyring-backend test
+celd gentx $KEY_NAME $STAKING_AMOUNT --chain-id $CHAIN_ID --keyring-backend test
+celd collect-gentxs
+celd start --rollkit.aggregator true --rollkit.da_layer celestia --rollkit.da_config='{"base_url":"http://localhost:26659","timeout":60000000000,"fee":6000,"gas_limit":6000000}' --rollkit.namespace_id $NAMESPACE_ID --rollkit.da_start_height $DA_BLOCK_HEIGHT
